@@ -27,7 +27,9 @@ Note that singularity, unlike docker, allows you three parallel ways to [interac
 Because the legend compute images are repackaged from docker images, the nuance to these options may be missing.
 
 To quickly test singularity, try creating a shell in the base image 
+
 `singularity shell /data/eliza1/LEGEND/sw/containers/legend-base.sif`
+
 (analog to `docker run legend-base bash`).
 Unlike docker, the environment is supposed to mimic your out-of-container environment, your CWD hasn't changed, and common directories like /home/$USER and /tmp and $PWD are auto-mounted.
 Users are encouraged to use the `--bind` flag to ensure the needed directories are available instead of relying on auto-mount of $PWD (e.g., `singularity shell --bind /data/eliza1/LEGEND:/awesome_mnt_point ...`, but matching the mount point to the filesystem path is encouraged for predictable $PYTHONPATH).
