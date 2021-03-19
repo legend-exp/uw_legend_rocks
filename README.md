@@ -26,9 +26,9 @@ This is intended for general analysis use by non-developers, and will only work 
 Note that singularity, unlike docker, allows you three parallel ways to [interact with an image](https://sylabs.io/guides/3.0/user-guide/quick_start.html#interact-with-images): shell, exec, or run.
 Because the legend compute images are repackaged from docker images, the nuance to these options may be missing.
 
-To quickly test singularity, try creating a shell in the base image 
+To use singularity, most users can open a shell in the base image with:
 
-`singularity shell /data/eliza1/LEGEND/sw/containers/legend-base.sif`
+`singularity shell --bind /data/eliza1/LEGEND:/data/eliza1/LEGEND /data/eliza1/LEGEND/sw/containers/legend-base.sif`
 
 (analog to `docker run legend-base bash`).
 Unlike docker, the environment is supposed to mimic your out-of-container environment, your CWD hasn't changed, and common directories like /home/$USER and /tmp and $PWD are auto-mounted.
