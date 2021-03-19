@@ -61,7 +61,7 @@ Using the `SINGULARITY_TMPDIR` environment variable can redirect these build ele
 An example build interactive build sequence was:
 ```bash
 screen
-cd /data/eliza1/LEGEND/software/containers
+cd /data/eliza1/LEGEND/sw/containers
 export SINGULARITY_TMPDIR=/data/eliza1/LEGEND/wcptest/sw/containers
 date;singularity build legend-base.sif docker://legendexp/legend-base:latest;date
 ```
