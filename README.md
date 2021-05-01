@@ -68,3 +68,47 @@ export SINGULARITY_TMPDIR=/data/eliza1/LEGEND/wcptest/sw/containers
 date;singularity build legend-base.sif docker://legendexp/legend-base:latest;date
 ```
 *FIXME: should also use SINGULARITY_DISABLE_CACHE?*
+
+## Running Jobs
+
+Follow the [CENPA Guide SGE Notes](https://cenpa.npl.washington.edu/display/CENPA/sge) for general usage. Here's an example script Jason used for running jobs executing g4simple sims in the container:
+
+submit_job.sh:
+```
+#!/bin/bash
+
+#$ -S /bin/bash #use bash
+#$ -m n # don't send mail when job starts or stops.
+#$ -w e #verify syntax and give error if so
+#$ -V #inherit environment variables
+#$ -N moonsim #job name
+#$ -e /data/eliza1/LEGEND/users/jasondet/jobs/logs #error output of script
+#$ -o /data/eliza1/LEGEND/users/jasondet/jobs/logs #standard output of script
+#$ -l h_rt=10:00:00 #hard time limit, your job is killed if it uses this much cpu.
+#$ -l s_rt=9:50:00 #soft time limit, your job gets signaled when you use this much time. Maybe you can gracefully shut down?
+#$ -cwd #execute from the current working directory
+#$ -t 1-1000 #give me N identical jobs, labelled by variable SGE_TASK_ID
+#$ -l scratch=10G
+
+#execute the $SGE_TASK_ID'th sub-job
+singularity exec --bind /data/eliza1/LEGEND,$TMPDIR /data/eliza1/LEGEND/sw/containers/legend-base.sif /home/jasondet/sims/run1.sh
+```
+
+run1.sh runs the job tasks in the container:
+```
+set -x
+date
+source /opt/geant4/share/Geant4-10.5.1/geant4make/geant4make.sh
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/root/lib:/opt/hdf5/lib"
+cd $TMPDIR
+DATADIR="/data/eliza1/LEGEND/users/jasondet/jobs/data/${JOB_ID}"
+mkdir -p ${DATADIR}
+df -h .
+g4simple /home/jasondet/sims/run.mac
+ls -alh g4simpleout.hdf5
+h5repack -v -f GZIP=5 g4simpleout.hdf5 ${DATADIR}/g4simpleout_${SGE_TASK_ID}.hdf5
+ls -alh ${DATADIR}/g4simpleout_${SGE_TASK_ID}.hdf5
+df -h ${DATADIR}
+date
+set +x
+```
