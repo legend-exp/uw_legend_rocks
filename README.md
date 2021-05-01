@@ -28,7 +28,7 @@ Because the legend compute images are repackaged from docker images, the nuance 
 
 To use singularity, most users can open a shell in the base image with:
 
-`singularity shell --bind /data/eliza1/LEGEND:/data/eliza1/LEGEND /data/eliza1/LEGEND/sw/containers/legend-base.sif`
+`singularity shell --bind /data/eliza1/LEGEND /data/eliza1/LEGEND/sw/containers/legend-base.sif`
 
 (analog to `docker run legend-base bash`).
 Unlike docker, the environment is supposed to mimic your out-of-container environment, your CWD hasn't changed, and common directories like /home/$USER and /tmp and $PWD are auto-mounted.
