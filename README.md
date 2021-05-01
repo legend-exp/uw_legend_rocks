@@ -81,7 +81,7 @@ submit_job.sh:
 #$ -m n # don't send mail when job starts or stops.
 #$ -w e #verify syntax and give error if so
 #$ -V #inherit environment variables
-#$ -N moonsim #job name
+#$ -N g4simple #job name
 #$ -e /data/eliza1/LEGEND/users/jasondet/jobs/logs #error output of script
 #$ -o /data/eliza1/LEGEND/users/jasondet/jobs/logs #standard output of script
 #$ -l h_rt=10:00:00 #hard time limit, your job is killed if it uses this much cpu.
